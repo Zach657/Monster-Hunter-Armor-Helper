@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.net.URL
+import java.security.AlgorithmConstraints
 import kotlin.concurrent.thread
 import kotlin.coroutines.CoroutineContext
 
@@ -44,16 +45,17 @@ class MainActivity : AppCompatActivity() {
         })
 
         thread {
-            var new_entities = DataHandler.fetchData()
+            entities = DataHandler.fetchData()
             this@MainActivity.runOnUiThread {
-                adapter.updateData(new_entities)
+                adapter.updateData(entities)
             }
         }
     }
 }
 
 // Custom Recycler View List Item Adapter
-class ArmorItemAdapter(private val context: Context, private val layoutResource: Int, private var arrayList: ArrayList<MonsterHunterArmorEntity>) : RecyclerView.Adapter<ArmorItemAdapter.ViewHolder>(), View.OnClickListener {
+class ArmorItemAdapter(private val context: Context, private val layoutResource: Int, private var arrayList: ArrayList<MonsterHunterArmorEntity>) : RecyclerView.Adapter<ArmorItemAdapter.ViewHolder>(), View.OnClickListener, Filterable {
+    var originalList: ArrayList<MonsterHunterArmorEntity> = arrayList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArmorItemAdapter.ViewHolder {
         var v: View= LayoutInflater.from(context).inflate(layoutResource, parent, false)
         v.setOnClickListener(this)
@@ -64,6 +66,7 @@ class ArmorItemAdapter(private val context: Context, private val layoutResource:
         //TODO: Implement Details Page
     }
 
+    //List Population Logic
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var armorEntity: MonsterHunterArmorEntity = arrayList.get(position)
         //Type Icon - set the appropriate image based on the type
@@ -109,17 +112,18 @@ class ArmorItemAdapter(private val context: Context, private val layoutResource:
 
     }
 
+    //List Item Updater
     public fun updateData(newList: ArrayList<MonsterHunterArmorEntity>) {
-        arrayList = newList
+        originalList = newList
+        arrayList = originalList
         notifyDataSetChanged()
     }
-
-
 
     override fun getItemCount(): Int {
         return arrayList.size
     }
 
+    //View reference instantiator
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         //Type Icon
         val typeIcon: ImageView = view.findViewById(R.id.typeIcon)
@@ -140,7 +144,29 @@ class ArmorItemAdapter(private val context: Context, private val layoutResource:
         //Rank 3
         val rank3layout: RelativeLayout = view.findViewById(R.id.rank3layout)
         val rank3: TextView = view.findViewById(R.id.rank3)
+    }
 
+    //Custom Filter Logic
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun publishResults(query: CharSequence?, results: FilterResults?) {
+                if (results != null) {
+                    arrayList = results.values as ArrayList<MonsterHunterArmorEntity>
+                }
+                notifyDataSetChanged()
+            }
+            override fun performFiltering(query: CharSequence?): FilterResults {
+                var filterResults = Filter.FilterResults()
+                if (query.isNullOrEmpty()) {
+                    filterResults.values = originalList
+                }
+                else{
+                    filterResults.values = originalList.filter { it.name.contains(query.toString(),true) || it.type.contains(query.toString(), true)}
+                }
+                return filterResults
+            }
+
+        }
     }
 }
 

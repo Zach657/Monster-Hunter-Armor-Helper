@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.MonsterHunterArmorHelper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="3sp"
@@ -14,22 +15,23 @@
         android:layout_marginTop="2sp"
         android:layout_marginBottom="2sp"
         android:orientation="horizontal"
-        android:background="@color/pale_dull"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/typeIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_chest"
-            android:padding="6sp"/>
+            android:minWidth="65sp"
+            android:cropToPadding="false"
+            android:padding="6sp"
+            app:srcCompat="@drawable/ic_chest" />
 
         <LinearLayout
             android:padding="4sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +52,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Rarity" />
+                    android:text="Rarity"
+                    android:textAlignment="viewEnd"/>
             </LinearLayout>
 
             <LinearLayout
@@ -98,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="gone">
+                        android:visibility="invisible">
 
                         <ImageView
                             android:id="@+id/rank1Icon"
@@ -111,21 +114,21 @@
                             android:id="@+id/rank1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
                             android:layout_alignLeft="@id/rank1Icon"
                             android:layout_alignTop="@id/rank1Icon"
                             android:layout_alignRight="@id/rank1Icon"
                             android:layout_alignBottom="@id/rank1Icon"
                             android:text="8"
-                            android:textSize="12sp"
-                            />
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/rank2layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="gone">
+                        android:visibility="invisible">
 
                         <ImageView
                             android:id="@+id/rank2Icon"
@@ -144,6 +147,7 @@
                             android:layout_alignBottom="@id/rank2Icon"
                             android:text="8"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="12sp" />
                     </RelativeLayout>
                     <RelativeLayout
@@ -151,7 +155,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="gone">
+                        android:visibility="invisible">
 
                         <ImageView
                             android:id="@+id/rank3Icon"
@@ -170,6 +174,7 @@
                             android:layout_alignBottom="@id/rank3Icon"
                             android:text="8"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="12sp" />
                     </RelativeLayout>
                 </LinearLayout>
